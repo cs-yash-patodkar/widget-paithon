@@ -1,0 +1,5 @@
+.remove-heading{
+    .steps-indicator{
+        display: none !important ;
+    }
+}

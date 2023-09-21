@@ -1,0 +1,29 @@
+{
+    "name": "pAIthon",
+    "title": "pAIthon",
+    "subTitle": "AI chat bot",
+    "version": "1.0.0",
+    "publishedDate": 1693897094,
+    "releaseNotes": "unavailable",
+    "metadata": {
+        "description": "Chat Bot To assist user while creating playbook, write jinja etc.",
+        "pages": [],
+        "certified": "Yes",
+        "publisher": null,
+        "compatibility": [
+            "7.4.2"
+        ],
+        "logo": "data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6\/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAsdSURBVHgB7VtpcBPXHf+trMOWbFmWhI0DtuVAMBCIIeEKJCCBQyChAyFHk9BJyAxtytCW8KH51hIm7Uw+tA0Z2mTamTZM+yFtw3BMAwEMlcAl3EEQwmUOGd\/3qfvYvrcry5a0kvUkmfRDfzMa7b59b3d\/7\/3f\/3pvOYwTrDyvQxBmBGCCDNWkaA756cjPFFPVIfx49JH\/y6SuDXLYLRzXh3EAhyxCIBnAVvLyZnJqRmawIYQDUGE\/Ie9AlpAVwlY\/byYktyNzkolgI2+6w6LgbMgQGRF+AERjQUV\/m0XF7UeaSIuw1c2bkINP8eCIxmI3FGTE0xB1GRhh9fFbCdlL+O7IUmyEH1byLhvBiJRHOKyQthORegf\/W9hpUXLbUq2cEmGBLOlRiKaFCf1OP1yeADy+EDnjE9aTy2QozFdCq5EjDdiJiL+QioiPSTg8XylZE1KExxvEmWvduHCzF31DPrBggk6FRY8aMKO8kJW8g5C2jEU6KeF0yN5oGMCek00C6UygVctRM28iHp9WxNKMkp6bzGlJTtjHU+WUshjXXe7EkfNtyCZWLyzFktlGlib28EhLkk6opYmN\/RAMZBvaXVknS\/Hl2VbcbRliaTKH6JvtiS5KEhbUPaM23mNrxHhhf10zvP4QS5N3rB5e8v3jRDqdeXv5Th8+t0oT1qpkyJWnZu6HfEG4\/NKa\/BVLGR6bogMD+sLz2TG6MF4N5gjiYAIDLtzoiStb\/UgBah7WYIpeCRbc6\/Xhi5uDOH7PGVVur+9lJUxNKfUGLaMLowhbA\/w6EqFsBCOaOt2R4zwFh21PGrFgUh5aAk78x92F7pA3iQUWQWVAL8vFDK0eP11kwOIKNX59ohOhcMP7HW6kATP190cHHdEjHMKHSAP+wMj8em22TiB7zNVIpkfzmERjccjVgOXqyagpnYwtC\/TYdVaUHo8vTTMnBje24dPIHA5HPlakiLZuJ\/5++DpuNfRAX1wqlJVpFdj1fCls7hYcdd1HJnheXYEleaV492gbbnWLzktPRyseqdDjjTWPwlCYl\/rNOGKmwqM8ok34xKo8Ft39bvz2b+cEsqOxcmq+8H\/e0x6+J4+hC3fRd9AOT31ik+W9045eUsd58R74oCgTx91NgnQsnBxNrJ4884O\/nEFXrwspYxQ3QaQFzcwQ\/Ryw1cPp8seVVxYp0eR3opfM2ZDbh7bf18LfJtr\/\/n9\/i4KFU6B\/ZVFUm979FzFQdyNyrjh+FaVbV8GjAjqDbkzV59LWUW2cbj\/2W+uxaX01UoSZxgPUGRFHmMM6MKCxbTDhtQDEuea8cE8ga9ywGGW\/ehnapdMxePYOvLfbI3U9N1sFsrqVs1H2\/kvQr58Pf\/sABmxiB7j4AHISWDRHSz+Y4BP9CvF2MqxlaJo0iObCV72N3VA+VATN45WQ5SlRSEhR+HtGvKZAnyiWWstMyNQqFCyZBoU+H\/7uAYyFwoJcMIHDMvonD4d+Zpa282ZNxL9O3IkrHyABQ2WOSjjWraoG7w1ErlHSJT+yQFkxIVKmfqyMdIoOnHLEWEx4ewVkKvGcmqneoLR2nlNVDEYIYi0jMsgc465YYMKjU+Id+ittHmhkClQqtJDrNVCUFkZdz616CLJcReScdoKyzBBVR2HMRw4ZvUlyDbTkXnUNzrjnVJkMeGaRCczwwSwnttfMmtlSKnKw5fuPw36zA9fuduFaszgKdfdd+EG1DuvzH8YnfVeFOZgOVFwOXi+Yhi5nEJdaPJHyp+ZORvW0YsnOTgk8TLJwkjwtULF6bdXMyLmTZDU+Od8DAxHFLbrZwkizgPY7bbO5cBZ0nBJ\/utiD3lFx9aurZqRPlt6fcJUT1kwOatxNYqTjFBllf7ATm54owg+1M+Emo+zhU\/OSlKT36ZQYIh2342QX7G3R7qSMyyyNTuz6HKodTMgQ+gIlegZHUjnnmt3kZT14qlyN6om5yEshWqLOqcsXwK2eQdQ5XHDGhIOGQhWyAB1HYl9WdzcO52\/24ACJWccTa5dMwvwZemQK5ry0FOZX6bGsmtlMpIxlc4qzQpYiKyM8DJqKOXutBy5if71EPNu6nPAFWKMcDpWTdJDncEIib950AypLNcgWskqYwkPIHj19D7VnGhAMMaVlIqDKadm8crxUU4UM9VQcKOF7yILiGsbH\/\/gaV+90IRuoIqHg1g3zkEU4ONZU7DCsR8\/BeuQMBvpGfGOZzgiPwYRsIrfzLkIDI2GosbgIS2vmY+mKtDrCRu3wZTJtmAifsn2Nf\/71y7hyuTp50lxFpqJu4sg5TyR+oINMA2fiNt48HUKdIxFWc2MHPvv0oOCkPM1KOoR+SthOWr\/J0u4r2yXJ8iCffMLNfY6HPMacBoj5Pvs5h0SahJdJL7fYjl1gJ8zBLiMpAAcY0d3NGIuGIUUq6AfSUZvOQYaMxzBksMlIWtYGRhiM6XmjV45wwogOgx5\/U5ueGtan8w5yMsLhNRgbS7v1r9ZAo8qJK5cF\/UnbuUmipP40Jzi1dFRvnOTgGWMVRS4RceUqZNjw5kowwka5ihOExwki3+ZUW5om6\/GTmgq09tHQjcOE5c8I5dcah3D4XHIXs5ssUJzfx4HG9QEvxkSNeRZmlj8pHHdaa4mNJkkCso5cUsy0qghhRxCG89JK7Ey2ACUFBfGEyg15Qrg0qapCKNOVuMckTOFlmH6L50+BUSdmLvOu5KU34SlUEDbCCL50OmItBfpi0yqy4\/NSzKjUR8hmCNvwGtNI8MBhB7KAF7PoDo5OLmSEUdwiRo5m5onXZUOGu3PKSgrw4ooq7Dl2k6QoySR1DoB3E83kc4nngVF2iPaMghhmOclzKXPB5etE74Qcf2\/ZVBiL1MgCHInXlmhP8KkRbuz2oNflw0QdSbjFXFu+oAKDLc04vOd08ptQ4l63+KMd09shFK98YTlWL3k4rnpzjwcdA17o8xUoQYqQIWqHTxThVEY5RCKgj\/9wANeujCinNUU2PL8+usnadYuRE\/Lh0L4TKesZuUKO59Ytxeq1T8dd2\/tZLWrrmiLnl4b2Y8vPNyS9H5Gf3WZ59K69+ARAEG8BSLgp5HSdnZC9HVX2xd4TuHXdEVd3DemE93+3FQuWzMZYmFU9Fb\/4YLMk2evf3EHtwa+iyq5evk3KTiW7pYNXxOulOMKWPKLNQokV2O3r0quCrU2dkuWGCTq8\/sYqlIeaYfS3oSA0AE1oiPwGkU+Ojf52lAUa8PbPXkZxibSGb77fLv3MZulnhiG5NVHSM7fkcjuJaJvI4dbYa5oCaUWi0xcgEVQaNYqMJCnf2g51KD40KqmsIEFF4p0CWl2+ZLlandBkfWRRcrulLiTMaZEGdPHJHltORU5XFE2OjmL1E9ORDGUzEl8vLi9DMsyeO02Ig0ejyFAIy7MLparbw+8uieT7tMR1JxoLmkaXd3f24eBeG3pI1DR1egWWP7sIak3yxa32hvvY\/e4vBaUX9QLENP1412+IlzYhaft+kmg4fOAkWpo6UGYqhWXlQqGjYzDmbrxx2XqYCI4r3+LQH\/+M\/g4xBaQp1OK5zZsw9QnmhIvk7TPeejiMMOl9SCMVFAue2KjW+rtQkvmnNeqJj8G47CmNpLvvRoPJCSSKbCckFNl3jI8I2fdS\/SiE2esNb8pm3ss1Duij5pNaFJZG6X8CIMN7rLmwLMJGRvWtdD4ByOwjD3EjG93bZcKDQcZft\/z\/M55MIIg63REkbpIxIzPYhNQTycZk8yu1LK\/cjCD8UcgcYUsFUE2eNPwZnimmqgNisGIndS8LaeMcMeGGccB\/AVTpCa90QR+yAAAAAElFTkSuQmCC",
+        "contexts": [
+            "pb_designer",
+            "jinja_editor",
+            "record_view"
+        ],
+        "standalone": true,
+        "windowClass": "Half Width",
+        "category": [
+            "Machine Learning"
+        ]
+    },
+    "development": false
+}
