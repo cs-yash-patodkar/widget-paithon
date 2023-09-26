@@ -22,33 +22,82 @@
                     <div id="Result-container">
                         <div class="margin-top-30 padding-bottom-md">
                             <div class="display-inline">
-                                <img style="width: 3%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg" alt="pAIthon">
-                                <span class="control-label padding-top-sm" data-ng-if="payload.pageContext === 'pb_designer'">What is the task you want to automate? </span>
-                                <span class="control-label padding-top-sm" data-ng-if="payload.pageContext === 'jinja_editor'">What jinja expression are you looking for? </span>
-                                <span class="control-label padding-top-sm" data-ng-if="payload.pageContext === 'record_view'">What do you want to know related to modules? </span>
+                                <img style="width: 3%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg"
+                                    alt="pAIthon">
+                                <span class="control-label padding-top-sm"
+                                    data-ng-if="payload.pageContext === 'pb_designer'">What is the task you want to
+                                    automate? </span>
+                                <span class="control-label padding-top-sm"
+                                    data-ng-if="payload.pageContext === 'jinja_editor'">What jinja expression are you
+                                    looking for? </span>
+                                <span class="control-label padding-top-sm"
+                                    data-ng-if="payload.pageContext === 'record_view'">What do you want to know related
+                                    to modules? </span>
                             </div>
-                            <button class="btn btn-link btn-sm padding-top-xs" style="padding-left: 10%;" data-ng-click="viewPopularTasks()">
+                            <button class="btn btn-link btn-sm padding-top-xs" style="padding-left: 10%;"
+                                data-ng-click="viewPopularTasks()">
                                 <span class="display-inline-block"></span>
                                 <u>View Popular Task</u>
                             </button>
                         </div>
                         <div>
-                            <textarea style="width: 500px; height:200px;" class="form-control margin-bottom-20" name="botInput" ng-model="inputText" ng-disabled="playbookDescription" ></textarea> 
+                            <textarea style="width: 500px; height:200px;" class="form-control margin-bottom-20"
+                                name="botInput" ng-model="inputText" ng-disabled="playbookDescription"></textarea>
                         </div>
-                        <button id="generate-result-button"data-ng-if="!playbookDescription"  type="button" data-ng-disabled="!inputText || inputText === ''" class="btn btn-primary btn-sm margin-top-xlg text-transform-none font-size-14" 
-                            data-ng-click="generateResult('description', inputText)" id="pAIthon-next-btn">Generate Result<i
-                            class="fa margin-left-sm"></i>
+                        <button id="generate-result-button"
+                            data-ng-if="!playbookDescription && payload.pageContext === 'pb_designer'" type="button"
+                            data-ng-disabled="!inputText || inputText === ''"
+                            class="btn btn-primary btn-sm margin-top-xlg text-transform-none font-size-14"
+                            data-ng-click="generateResult(inputText,'description')" id="pAIthon-next-btn">Generate
+                            Result<i class="fa margin-left-sm"></i>
+                        </button>
+                        <button id="generate-jinja-button"
+                            data-ng-if="payload.pageContext === 'jinja_editor'" type="button"
+                            data-ng-disabled="!inputText || inputText === ''"
+                            class="btn btn-primary btn-sm margin-top-xlg text-transform-none font-size-14"
+                            data-ng-click="generateResult(inputText,'jinjaResult')" id="pAIthon-next-btn">Generate
+                            Jinja<i class="fa margin-left-sm"></i>
                         </button>
                         <div data-ng-if="processing" class="display-inline-block margin-left-120">
                             <cs-spinner></cs-spinner>
                         </div>
+                        <div data-ng-if="showDescription" style="height: 300px;" data-cs-json-editor  data-expand-all="true" data-options="options" data-on-change="updateRichTextHtmlValue" data-json="playbookDescription"></div>
+                        <!-- <div>
+                            <div data-ng-if="showDescription" data-cs-markdown-editor id="show-playbook-description"
+                                data-ng-model="playbookDescription" data-change-method="updateRichTextHtmlValue"
+                                data-config="configForMarkdown">
+                            </div>
+                        </div>
+                         -->
                         <div>
-                            <div data-ng-if="showDescription" data-cs-markdown-editor data-ng-model="playbookDescription" data-change-method="updateRichTextHtmlValue" data-config="configForMarkdown">
-                          </div>
+                            <div data-ng-if="jinjaResult || !jinjaResult === ''" data-cs-markdown-editor id="show-jinja-result"
+                                data-ng-model="jinjaResult" data-change-method="updateRichTextHtmlValue"
+                                data-config="configForMarkdown">
+                            </div>
+                        </div>
+                        <div id="on-receiving-pdDescription" data-ng-if="jinjaResult">
+                            <button type="button" data-ng-if="jinjaResult"
+                                class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
+                                data-ng-click="reviewJinja(); " id="btn-copy-result"
+                                title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
+                                    class="fa fa-clipboard margin-right-sm"></i>Copy &amp; Jinja </button>
+                            <button type="button" data-ng-if="jinjaResult"
+                                class="btn btn-default pull-left btn-sm margin-top-lg margin-right-lg"
+                                data-ng-click="regenerateResult(); " id="btn-regenerate-result"
+                                title="To get a different result."><i
+                                    class="fa fa-repeat margin-right-sm"></i>Regenerate Result </button>
                         </div>
                         <div id="on-receiving-pdDescription" data-ng-if="playbookDescription">
-                            <button type="button" data-ng-if="playbookDescription" class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg" data-ng-click="reviewPlaybook(); " id="btn-copy-result" title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i class="fa fa-clipboard margin-right-sm"></i>Review &amp; Result </button>
-                            <button type="button" data-ng-if="playbookDescription" class="btn btn-default pull-left btn-sm margin-top-lg margin-right-lg" data-ng-click="regenerateResult(); " id="btn-regenerate-result" title="To get a different result."><i class="fa fa-repeat margin-right-sm"></i>Regenerate Result </button>
+                            <button type="button" data-ng-if="playbookDescription"
+                                class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
+                                data-ng-click="reviewPlaybook(); " id="btn-copy-result"
+                                title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
+                                    class="fa fa-clipboard margin-right-sm"></i>Review &amp; Result </button>
+                            <button type="button" data-ng-if="playbookDescription"
+                                class="btn btn-default pull-left btn-sm margin-top-lg margin-right-lg"
+                                data-ng-click="regenerateResult(); " id="btn-regenerate-result"
+                                title="To get a different result."><i
+                                    class="fa fa-repeat margin-right-sm"></i>Regenerate Result </button>
                         </div>
                     </div>
                 </div>
