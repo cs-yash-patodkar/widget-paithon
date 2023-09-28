@@ -7,7 +7,7 @@
     <div class="modal-body-padding">
         <wizard on-finish="close()" indicators-position="top"
             class="remove-heading view-panel mp-view-panel padding-left-lg" name="pAIthonBot-wizard">
-            <wz-step wz-title="Site Details" wz-order="1" class="mp-view-browse">
+            <!-- <wz-step wz-title="Site Details" wz-order="1" class="mp-view-browse">
                 <div class="padding-top-30">
                     <div class="modal-title display-inline-flex margin-0">
                         <img style="width: 10%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg" alt="pAIthon">
@@ -52,23 +52,23 @@
                             Result<i class="fa margin-left-sm"></i>
                         </button>
                         <button id="generate-jinja-button"
-                            data-ng-if="payload.pageContext === 'jinja_editor'" type="button"
+                            data-ng-if="payload.pageContext === 'jinja_editor' || payload.pageContext === 'record_view' " type="button"
                             data-ng-disabled="!inputText || inputText === ''"
                             class="btn btn-primary btn-sm margin-top-xlg text-transform-none font-size-14"
                             data-ng-click="generateResult(inputText,'jinjaResult')" id="pAIthon-next-btn">Generate
-                            Jinja<i class="fa margin-left-sm"></i>
+                            Result<i class="fa margin-left-sm"></i>
                         </button>
                         <div data-ng-if="processing" class="display-inline-block margin-left-120">
                             <cs-spinner></cs-spinner>
                         </div>
                         <div data-ng-if="showDescription" style="height: 300px;" data-cs-json-editor  data-expand-all="true" data-options="options" data-on-change="updateRichTextHtmlValue" data-json="playbookDescription"></div>
-                        <!-- <div>
+                        <div>
                             <div data-ng-if="showDescription" data-cs-markdown-editor id="show-playbook-description"
                                 data-ng-model="playbookDescription" data-change-method="updateRichTextHtmlValue"
                                 data-config="configForMarkdown">
                             </div>
                         </div>
-                         -->
+                        
                         <div>
                             <div data-ng-if="jinjaResult || !jinjaResult === ''" data-cs-markdown-editor id="show-jinja-result"
                                 data-ng-model="jinjaResult" data-change-method="updateRichTextHtmlValue"
@@ -80,7 +80,7 @@
                                 class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
                                 data-ng-click="reviewJinja(); " id="btn-copy-result"
                                 title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
-                                    class="fa fa-clipboard margin-right-sm"></i>Copy &amp; Jinja </button>
+                                    class="fa fa-clipboard margin-right-sm"></i>Copy Jinja </button>
                             <button type="button" data-ng-if="jinjaResult"
                                 class="btn btn-default pull-left btn-sm margin-top-lg margin-right-lg"
                                 data-ng-click="regenerateResult(); " id="btn-regenerate-result"
@@ -101,7 +101,15 @@
                         </div>
                     </div>
                 </div>
-            </wz-step>
+            </wz-step> -->
+            
+            <div id="on-receiving-pdDescription" class="padding-top-70">
+                <button type="button"
+                    class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
+                    data-ng-click="reviewPlaybook(); " id="btn-copy-result"
+                    title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
+                        class="fa fa-clipboard margin-right-sm"></i>Review &amp; Result </button>
+            </div>
         </wizard>
     </div>
 </div>
