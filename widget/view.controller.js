@@ -9,124 +9,119 @@
     .module('cybersponse')
     .controller('pAIthon100Ctrl', pAIthon100Ctrl);
 
-  pAIthon100Ctrl.$inject = ['$scope', 'WizardHandler', '$http', 'playbookService', 'toaster', 'clipboard', '$rootScope', '$resource', '$q'];
+  pAIthon100Ctrl.$inject = ['$scope', 'WizardHandler', 'config', '$http', 'playbookService', 'toaster', 'clipboard', '$rootScope', '$resource', '$q'];
 
-  function pAIthon100Ctrl($scope, WizardHandler, $http, playbookService, toaster, clipboard, $rootScope, $resource, $q) {
-    $scope.moveEnvironmentNext = moveEnvironmentNext;
-    // $scope.getDataFromConnector = getDataFromConnector;
-    $scope.generateResult = generateResult;
-    $scope.viewPopularTasks = viewPopularTasks;
-    // $scope.stepResult = '';
+  function pAIthon100Ctrl($scope, WizardHandler, config, $http, playbookService, toaster, clipboard, $rootScope, $resource, $q) {
+
+    $scope.userInput = {
+      textVal: ''
+    };
+
+    $scope.inputText = {
+      inputText: ''
+    };
+
+    $scope.generatePlaybookDescription = generatePlaybookDescription;
+
+    $scope.botType = 'Conversation';
     $scope.reviewPlaybook = reviewPlaybook;
     $scope.processing = false;
-    $scope.emptyOnChange = emptyOnChange;
-    $scope.fetchPlaybookWithTag = '';
     $scope.showDescription = false;
-    $scope.inputText = '';
     $scope.playbookDescription = '';
     $scope.updateRichTextHtmlValue = updateRichTextHtmlValue;
-    $scope.validYAML = false;
-    $scope.jinjaResult = '';
-    $scope.reviewJinja = reviewJinja;
-
     $scope.playbookTags = {
       pBDesignerDescription: ["aibot-playbookPlanSuggestion"],
       pBDesignerSteps: ["aibot-playbookBlockSuggestion"],
-      jinjaEditor: ["aibot-playbookJinjaSuggestion"]
+      jinjaEditor: ["aibot-playbookJinjaSuggestion"],
+      conversation: ["aibot-conversation"]
     }
-
-    $scope.configForMarkdown = {
-      initialEditType: 'markdown', //wysiwyg
-      previewStyle: 'tab',
-      height: '350px',
-      usageStatistics: false,
-      hideModeSwitch: true,
-      toolbarItems: ['heading', 'bold', 'italic', 'strike']
-    };
-
+    $scope.receivingResponse = false;
     $scope.options = {
       "name": "Workflow Steps",
-      mode: 'view', 
-      modes: ['view', 'code'],
+      mode: 'view',
+      modes: ['view'],
       "enableTransform": true,
       "history": false,
       "enableSort": false
     }
+    $scope.chatMessages = [];
+    $scope.sendMessage = function (event, flagEnterClick) {
+      if ((event.keyCode === 13 && !event.shiftKey) || flagEnterClick) { // Check if Enter key is pressed
+        $scope.chatMessages.push({ text: $scope.userInput.textVal, type: 'user' });
+        $scope.userInput.textVal = ''; // Clear the input field
+        // Process user input and generate a bot response
+        generateBotResponse($scope.chatMessages);
+      }
+    };
 
-    function emptyOnChange(json) {
-      console.log(json)
-    }
-    function moveEnvironmentNext() {
-      WizardHandler.wizard('pAIthonBot-wizard').next();
+    // Function to generate a bot response 
+    function generateBotResponse(userMessage) {
+      $scope.receivingResponse = true;
+      var parametersForPlaybook = {
+        "input": {},
+        "request": {
+          "data": {
+            "records": [],
+            "conversation": userMessage
+          }
+        },
+        "conversation": userMessage,
+        "useMockOutput": false,
+        "globalMock": false
+      }
+      getDataFromPlaybook($scope.playbookTags.conversation, parametersForPlaybook).then(function (data) {
+        // $scope.showDescription = true;
+        if (data.result) {
+          if (data.result.query_result) {
+            $scope.receivingResponse = false;
+            $scope.chatMessages.push({ text: data.result.query_result, type: 'bot' });
+          }
+          else {
+            $scope.chatMessages.push({ text: "Playbook Failed", type: 'bot' });
+          }
+        }
+      });
     }
 
-    function generateResult(inputText, playbook) {
+    function reviewPlaybook() {
+      if ($scope.payload.pageContext === 'pb_designer') {
+        $scope.processing = true;
+        var parametersForPlaybook = {
+          "input": {},
+          "request": {
+            "data": {
+              "records": [],
+              "task_to_automate": $scope.playbookDescription
+            }
+          },
+          "task_to_automate": $scope.playbookDescription,
+          "useMockOutput": false,
+          "globalMock": false
+        }
+        getDataFromPlaybook($scope.playbookTags.pBDesignerSteps, parametersForPlaybook).then(function (data) {
+          if (data.result && data.result.data) {
+            $rootScope.$broadcast("designer:addPlaybookElements", data.result.data);
+            $scope.close();
+            toaster.info('Copied all selected steps');
+          }
+          else {
+            $scope.close();
+            toaster.info('Could not fetch result. Please try again.');
+          }
+        });
+      }
+    }
+
+    function generatePlaybookDescription(inputText) {
       $scope.processing = true;
       if ($scope.payload.pageContext === 'pb_designer') {
-        if (playbook === "playbookSteps") {
-          var copyButton = document.getElementById('btn-copy-result');
-          copyButton.style.display = "none";
-          var regenerateButton = document.getElementById('btn-regenerate-result');
-          regenerateButton.style.display = "none";
-          // var playbookTags = ["aibot-steps-playbook"];
-          var parametersForPlaybook = {
-            "input": {},
-            "request": {
-              "data": {
-                "records": [],
-                "task_to_automate": inputText
-              }
-            },
-            "task_to_automate": inputText,
-            "useMockOutput": false,
-            "globalMock": false
-          }
-          getDataFromPlaybook($scope.playbookTags.pBDesignerSteps, parametersForPlaybook).then(function (data) {
-            if(data.result && data.result.data){
-              $rootScope.$broadcast("designer:addPlaybookElements", data.result.data);
-              $scope.close();
-              toaster.info('Copied all selected steps');
-            }
-            else{
-              $scope.close();
-              toaster.info('Could not fetch result. Please try again.');
-            }
-          });
-        }
-        else if (playbook === "description") {
-          var generateButton = document.getElementById('generate-result-button');
-          generateButton.style.display = "none";
-          // var playbookTags = ["aibot-description-playbook"];
-          var parametersForPlaybook = {
-            "input": {},
-            "request": {
-              "data": {
-                "records": [],
-                "task_to_automate": inputText
-              }
-            },
-            "task_to_automate": inputText,
-            "useMockOutput": false,
-            "globalMock": false
-          }
-          getDataFromPlaybook($scope.playbookTags.pBDesignerDescription, parametersForPlaybook).then(function (data) {
-            $scope.showDescription = true;
-            if (data.result) {
-              if (data.result.query_result) {
-                $scope.playbookDescription = data.result.query_result;
-              }
-              else {
-                $scope.playbookDescription = "Playbook Failed";
-              }
-            }
-          });
-        }
-      }
+        $scope.showDescription = false;
 
-      else if ($scope.payload.pageContext === 'jinja_editor') {
-        var generateButton = document.getElementById('generate-jinja-button');
-        generateButton.style.display = "none";
-        // var playbookTags = ["aibot-jinja-editor"];
+        var generateButton = document.getElementById('generate-result-button');
+        if (generateButton) {
+          generateButton.style.display = "none";
+
+        }
         var parametersForPlaybook = {
           "input": {},
           "request": {
@@ -139,14 +134,14 @@
           "useMockOutput": false,
           "globalMock": false
         }
-        getDataFromPlaybook($scope.playbookTags.jinjaEditor, parametersForPlaybook).then(function (data) {
-          // $scope.showDescription = true;
+        getDataFromPlaybook($scope.playbookTags.pBDesignerDescription, parametersForPlaybook).then(function (data) {
+          $scope.showDescription = true;
           if (data.result) {
-            if (data.result.query_result) {
-              $scope.jinjaResult = data.result.query_result;
+            if (data.result.query_result && data.result.query_result.result) {
+              $scope.playbookDescription = data.result.query_result.result;
             }
             else {
-              $scope.jinjaResult = "Playbook Failed";
+              $scope.playbookFailed = true;
             }
           }
         });
@@ -155,7 +150,6 @@
 
     function getDataFromPlaybook(playbookTags, parametersForPlaybook) {
       var defer = $q.defer();
-
       var queryObjectPlaybook = {
         "sort": [
           {
@@ -188,7 +182,7 @@
 
       // add a tag to the playbook, get the playbook instead of hardcoding the playbook iri
       getAllPlaybooks(queryObjectPlaybook).then(function (playbook) {
-        var queryUrl = '/api/triggers/1/notrigger/' + playbook['hydra:member'][0]['uuid'];
+        var queryUrl = '/api/triggers/1/notrigger/' + playbook['hydra:member'][0]['uuid'] + '?force_debug=true';
         //Parametersforplaybook -> 'Edit Parameters' in playbook
         $http.post(queryUrl, parametersForPlaybook).then(function (result) {
           if (result && result.data && result.data.task_id) {
@@ -221,49 +215,10 @@
       return defer.promise;
     }
 
-    function reviewJinja() {
-      clipboard.copyText($scope.jinjaResult);
-      $scope.close();
-    }
-
-    function reviewPlaybook() {
-      // var selectedStep = $scope.stepResult.result.query_result;
-      // selectedStep.push($scope.stepResult.result.query_result);
-      // var selectedGroups = [];
-      // var routes = [];
-      // clipboard.copyText(JSON.stringify({
-      //   steps: selectedStep.steps,
-      //   groups: selectedStep.groups,
-      //   routes: selectedStep.routes
-      // }));
-      if ($scope.payload.pageContext === 'pb_designer') {
-        $scope.showDescription = false;
-        generateResult($scope.playbookDescription, 'playbookSteps')
-      }
-    }
-
-    // function validateYaml(yamlString) {
-    //   // Basic YAML structure pattern
-    //   const yamlPattern = /^(\s*[-]?\s*.*\s*(:|->|!|&|[*])\s*)+$/m;
-    //   if (yamlPattern.test(yamlString)) {
-    //     $scope.validYAML = true;
-    //   } else {
-    //     $scope.validYAML = false;
-    //   }
-    // }
-
     function updateRichTextHtmlValue(value) {
       if ($scope.payload.pageContext === 'pb_designer') {
         $scope.playbookDescription = value;
       }
-      else if ($scope.payload.pageContext === 'jinja_editor') {
-        $scope.jinjaResult = value;
-      }
     }
-
-    function viewPopularTasks() {
-
-    }
-
   }
 })();
