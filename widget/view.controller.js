@@ -9,9 +9,9 @@
     .module('cybersponse')
     .controller('pAIthon100Ctrl', pAIthon100Ctrl);
 
-  pAIthon100Ctrl.$inject = ['$scope', 'WizardHandler', 'config', '$http', 'playbookService', 'toaster', 'clipboard', '$rootScope', '$resource', '$q'];
+  pAIthon100Ctrl.$inject = ['$scope', '$http', 'playbookService', 'toaster', 'clipboard', '$rootScope', '$resource', '$q', '$timeout'];
 
-  function pAIthon100Ctrl($scope, WizardHandler, config, $http, playbookService, toaster, clipboard, $rootScope, $resource, $q) {
+  function pAIthon100Ctrl($scope, $http, playbookService, toaster, clipboard, $rootScope, $resource, $q, $timeout) {
 
     $scope.userInput = {
       textVal: ''
@@ -20,8 +20,17 @@
     $scope.inputText = {
       inputText: ''
     };
-
+    
     $scope.generatePlaybookDescription = generatePlaybookDescription;
+    $scope.configForMarkdown = {
+      initialEditType: 'markdown', //wysiwyg
+      previewStyle: 'tab',
+      height: '420px',
+      usageStatistics: false,
+      hideModeSwitch: true,
+      toolbarItems: ['']
+    };
+    $scope.onChangeMode = onChangeMode;
 
     $scope.botType = 'Conversation';
     $scope.reviewPlaybook = reviewPlaybook;
@@ -32,25 +41,60 @@
     $scope.playbookTags = {
       pBDesignerDescription: ["aibot-playbookPlanSuggestion"],
       pBDesignerSteps: ["aibot-playbookBlockSuggestion"],
-      jinjaEditor: ["aibot-playbookJinjaSuggestion"],
       conversation: ["aibot-conversation"]
     }
     $scope.receivingResponse = false;
     $scope.options = {
       "name": "Workflow Steps",
-      mode: 'view',
-      modes: ['view'],
+      mode: 'form',
+      modes: ['code', 'form'],
       "enableTransform": true,
       "history": false,
-      "enableSort": false
+      "enableSort": false,
+      'navigationBar': false,
+      'statusBar': false,
+      'mainMenuBar': true
     }
-    $scope.chatMessages = [];
+
+    function onChangeMode(){
+      delete $scope.userInput.textVal;
+    }
+
+    // $scope.scrollToEnd = scrollToEnd;
+    // function scrollToEnd() {
+    //   $timeout(function () {
+    //     $scope.$broadcast('scrollToBottom', 'bot-conversation');
+    //   });
+    // }
+
+    function scrollToBottom(){
+      var container = document.getElementById('bot-conversation');
+      container.scrollTop = container.scrollHeight ;
+    }
+
+    $scope.conversationMessages = [];
+    $scope.playbookSuggestionMessages = [];
     $scope.sendMessage = function (event, flagEnterClick) {
-      if ((event.keyCode === 13 && !event.shiftKey) || flagEnterClick) { // Check if Enter key is pressed
-        $scope.chatMessages.push({ text: $scope.userInput.textVal, type: 'user' });
-        $scope.userInput.textVal = ''; // Clear the input field
-        // Process user input and generate a bot response
-        generateBotResponse($scope.chatMessages);
+      if($scope.botType  === 'Conversation'){
+        if ((event.keyCode === 13 && !event.shiftKey) || flagEnterClick) { // Check if Enter key is pressed
+          $scope.conversationMessages.push({ text: $scope.userInput.textVal, type: 'user' });
+          scrollToBottom();
+          // $scope.userInput.textVal = ''; // Clear the input field
+          // Process user input and generate a bot response
+          delete $scope.userInput.textVal;
+          generateBotResponse($scope.conversationMessages);
+        }
+      }
+      else{
+        if ((event.keyCode === 13 && !event.shiftKey) || flagEnterClick) { // Check if Enter key is pressed
+          $scope.playbookSuggestionMessages.push({ text: $scope.userInput.textVal, type: 'user' });
+          scrollToBottom();
+          var userInput = angular.copy($scope.userInput.textVal);
+          $scope.userInput.textVal = ''; // Clear the input field
+          // Process user input and generate a bot response
+          generatePlaybookDescription(userInput);
+          // generateBotResponse($scope.playbookSuggestionMessages);
+        }
       }
     };
 
@@ -65,7 +109,6 @@
             "conversation": userMessage
           }
         },
-        "conversation": userMessage,
         "useMockOutput": false,
         "globalMock": false
       }
@@ -74,37 +117,43 @@
         if (data.result) {
           if (data.result.query_result) {
             $scope.receivingResponse = false;
-            $scope.chatMessages.push({ text: data.result.query_result, type: 'bot' });
+            $scope.conversationMessages.push({ text: data.result.query_result, type: 'bot' });
+            setTimeout(function () {
+              scrollToBottom();
+            }, 1000);
           }
           else {
-            $scope.chatMessages.push({ text: "Playbook Failed", type: 'bot' });
+            $scope.conversationMessages.push({ text: "Playbook Failed", type: 'bot' });
           }
         }
-      });
+      })
     }
 
-    function reviewPlaybook() {
+    function reviewPlaybook(input) {
       if ($scope.payload.pageContext === 'pb_designer') {
-        $scope.processing = true;
+        $scope.playbookSuggestionMessages.push({ text: "Generating playbook steps...", type: 'botGeneral' });
+        scrollToBottom();
+        $scope.receivingResponse = true;
         var parametersForPlaybook = {
           "input": {},
           "request": {
             "data": {
               "records": [],
-              "task_to_automate": $scope.playbookDescription
+              "task_to_automate": input
             }
           },
-          "task_to_automate": $scope.playbookDescription,
           "useMockOutput": false,
           "globalMock": false
         }
         getDataFromPlaybook($scope.playbookTags.pBDesignerSteps, parametersForPlaybook).then(function (data) {
           if (data.result && data.result.data) {
+            $scope.receivingResponse = false;
             $rootScope.$broadcast("designer:addPlaybookElements", data.result.data);
             $scope.close();
             toaster.info('Copied all selected steps');
           }
           else {
+            $scope.receivingResponse = false;
             $scope.close();
             toaster.info('Could not fetch result. Please try again.');
           }
@@ -114,6 +163,8 @@
 
     function generatePlaybookDescription(inputText) {
       $scope.processing = true;
+      $scope.receivingResponse = true;
+
       if ($scope.payload.pageContext === 'pb_designer') {
         $scope.showDescription = false;
 
@@ -130,7 +181,6 @@
               "task_to_automate": inputText
             }
           },
-          "task_to_automate": inputText,
           "useMockOutput": false,
           "globalMock": false
         }
@@ -138,13 +188,19 @@
           $scope.showDescription = true;
           if (data.result) {
             if (data.result.query_result && data.result.query_result.result) {
+              $scope.receivingResponse = false;
+              $scope.playbookSuggestionMessages.push({ text: data.result.query_result.result, type: 'bot', generatePlaybook: true });
               $scope.playbookDescription = data.result.query_result.result;
+              setTimeout(function () {
+                scrollToBottom();
+              }, 1);
             }
             else {
+              $scope.receivingResponse = false;
               $scope.playbookFailed = true;
             }
           }
-        });
+        })
       }
     }
 
