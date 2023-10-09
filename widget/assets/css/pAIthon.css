@@ -5,10 +5,16 @@
 }
 
 .user-message{
-    background: var(--incoming-chat-bg);
+    grid-column: 2 / span 1;
+    float: right;
+    width: max-content;
+    border-radius: 30px;
+    background: var(--incoming-chat-bg);;
     border: 1px solid var(--incoming-chat-border);
 }
 .bot-message{
+    width: max-content;
+    border-radius: 30px;
     background: var(--outgoing-chat-bg);
     border: 1px solid var(--outgoing-chat-border);
 }
@@ -59,8 +65,8 @@ object-fit: cover; border-radius: 2px;
     --icon-color: #ACACBE;
     --icon-hover-bg: #5b5e71;
     --placeholder-color: #cccccc;
-    --outgoing-chat-bg: #343541;
-    --incoming-chat-bg: #444654;
+    --outgoing-chat-bg: #000000;
+    --incoming-chat-bg: #20a6af;
     --outgoing-chat-border: #343541;
     --incoming-chat-border: #444654;
 }
@@ -89,4 +95,3 @@ object-fit: cover; border-radius: 2px;
       opacity: 1; /* Make dots visible at the middle of animation */
     }
   }
-  

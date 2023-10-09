@@ -3,123 +3,128 @@
   All rights reserved.
   FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE
   Copyright end -->
-<div class="width-100pt">
-    <div class="modal-body-padding">
-        <wizard on-finish="close()" indicators-position="top"
-            class="remove-heading view-panel mp-view-panel padding-left-lg" name="pAIthonBot-wizard">
+  <div class="width-100pt">
+    <div class="display-inline-flex margin-0 margin-left-18 margin-top-20 modal-title">
+        <img style="width: 10%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg" alt="pAIthon">
+        <span class="padding-top-lg padding-left-10">
+            <div>
+                pAIthon
+            </div>
+        </span>
+    </div>
+    <div id="bot-conversation" class="modal-body" style="padding-bottom: 10%;">
+        <div class="padding-left-lg" style="background-color: #1b2430;" name="pAIthonBot-wizard">
             <div class="padding-top-30">
-                <div class="modal-title display-inline-flex margin-0">
-                    <img style="width: 10%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg" alt="pAIthon">
-                    <span class="padding-top-lg padding-left-10">
-                        <div>
-                            pAIthon
-                        </div>
-                    </span>
-                </div>
-                <div class="clearfix"></div>
-
-                <!-- Radio Button -->
-                <div class="row margin-bottom-sm">
-                    <div class="col-md-6 padding-right-0">
-                        <div class="radio">
-                            <label><input id="playbook-suggestion-radio" name="playbook-suggestionradio" type="radio"
-                                    data-ng-model="botType" value="Playbook Suggestion">&nbsp;&nbsp;Get Playbook
-                                Suggestion</label>
-                            <span data-uib-tooltip="To get playbook steps." data-tooltip-append-to-body="true"><i
-                                    class="icon icon-information font-Size-13"></i></span>
-                        </div>
-                        <div class="radio">
-                            <label><input id="conversation-radio" name="conversation-radio" type="radio"
-                                    data-ng-model="botType" value="Conversation">&nbsp;&nbsp;Ask Anything</label>
-                            <span data-uib-tooltip="Start a conversation with the bot"
-                                data-tooltip-append-to-body="true"><i
-                                    class="icon icon-information font-Size-13"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Radio Button End -->
-
-                <div id="Result-container" data-ng-if="botType  === 'Playbook Suggestion' ">
-                    <div class="margin-top-30 padding-bottom-md">
-                        <div class="display-inline">
-                            <img style="width: 3%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg"
-                                alt="pAIthon">
-                            <span class="control-label padding-top-sm"
-                                data-ng-if="payload.pageContext === 'pb_designer'">What is the task you want to
-                                automate?
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <textarea style="width: 500px; height:200px;" class="form-control margin-bottom-20"
-                            name="botInput" ng-model="inputText.inputText"></textarea>
-                    </div>
-                    <button id="generate-result-button"
-                        data-ng-if="!playbookDescription && payload.pageContext === 'pb_designer'" type="button"
-                        data-ng-disabled="!inputText || inputText === ''"
-                        class="btn btn-primary btn-sm margin-top-xlg text-transform-none font-size-14"
-                        data-ng-click="generatePlaybookDescription(inputText)" id="pAIthon-next-btn">Generate
-                        Result<i class="fa margin-left-sm"></i>
-                    </button>
-                    <div data-ng-if="processing" class="display-inline-block margin-left-120">
-                        <cs-spinner></cs-spinner>
-                    </div>
-                    <div data-ng-if="showDescription && !processing" style="height: 300px;" data-cs-json-editor data-expand-all="true"
-                        data-options="options" data-on-change="updateRichTextHtmlValue" data-json="playbookDescription">
-                    </div>
-                    <div id="on-receiving-pdDescription" data-ng-if="showDescription && !processing">
-                        <button type="button" data-ng-if="showDescription"
-                            class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
-                            data-ng-click="reviewPlaybook(); " id="btn-copy-result"
-                            title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
-                                class="fa fa-clipboard margin-right-sm"></i>Review &amp; Result </button>
-                        <button type="button" data-ng-if="showDescription"
-                            class="btn btn-default pull-left btn-sm margin-top-lg margin-right-lg"
-                            data-ng-click="generatePlaybookDescription(inputText)" " id=" btn-regenerate-result"
-                            title="To get a different result."><i class="fa fa-repeat margin-right-sm"></i>Regenerate
-                            Result </button>
-                    </div>
-                </div>
-
-                <div data-ng-if="botType === 'Conversation'">
-                    <div class="margin-top-30 padding-bottom-md">
-                        <div class="display-inline">
-                            <img style="width: 3%;" src="widgets/installed/pAIthon-1.0.0/images/robot.svg"
-                                alt="pAIthon">
-                            <span class="control-label padding-top-sm"
-                                data-ng-if="payload.pageContext === 'pb_designer'">Ask Bot a question.
-                        </div>
-                    </div>
-                    <div class="chat-container">
-                        <div class="chat-box" style="margin:5px" ng-repeat="message in chatMessages">
-                            <div class="user-message padding-bottom-md padding-top-md" ng-if="message.type === 'user'">
-                                <img class="margin-bottom-4 margin-right-md userpic userpic_bg"
-                                    data-ng-src="images/default-profile-photo.png?v=1"
-                                    src="images/default-profile-photo.png?v=1">
-                                    <p class="display-inline-block"> User: {{ message.text }}</p></div>
-
-                            <div class="bot-message padding-bottom-md padding-top-md" ng-if="message.type === 'bot'">
-                                <img class="margin-bottom-4 margin-right-md userpic userpic_bg"
-                                    data-ng-src="images/default-profile-photo.png?v=1"
-                                    src="images/default-profile-photo.png?v=1">
-                                    <p class="display-inline-block"> Bot: {{ message.text }}</p>
+                <div id="chat-container-full">
+                    <div id="bot-conversation-window" class="chat-container">
+                        <div class="chat-box" data-ng-if="botType  === 'Conversation'"
+                            style="display: grid;grid-template-columns: 1fr auto;margin: 5px;"
+                            ng-repeat="message in conversationMessages">
+                            <div id="conversation-{{$index}}" class="user-message" ng-if="message.type === 'user'">
+                                <div class="chat-content">
+                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                        <div data-cs-markdown-editor id="show-playbook-description"
+                                            data-ng-model="message.text" mode="'view'">
+                                        </div>
+                                    </div>
+                                    <!-- <p style="max-width: 700px;" class="display-inline-block margin-bottom-md padding-left-10 padding-right-12">{{ message.text }}</p> -->
+                                </div>
+                            </div>
+                            <div id="conversation-{{$index}}" class="bot-message" ng-if="message.type === 'bot'">
+                                <div class="chat-content">
+                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                        <div data-cs-markdown-editor id="show-playbook-description"
+                                            data-ng-model="message.text" mode="'view'">
+                                        </div>
+                                    </div>
+                                    <!-- <p style="max-width: 700px;" class="display-inline-block margin-bottom-md padding-left-10 padding-right-12">{{ message.text }}</p> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="loading-dots" data-ng-if="receivingResponse">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
-                    <div class="display-flex">
-                        <textarea type="text" id="conversation-text-input" name="conversation-text-input"
-                            class="form-control input-sm display-inline" placeholder="Type a message"
-                            ng-model="userInput.textVal" ng-keypress="sendMessage($event, false)" autoheight>
-                        </textarea> <i data-ng-click="sendMessage($event, true)"
-                            class="fa fa-arrow-right padding-top-7 position-relative right-25"></i>
+
+                        <div class="chat-box" data-ng-if="botType  === 'Playbook Suggestion'"
+                            style="display: grid;grid-template-columns: 1fr auto;margin: 5px;"
+                            ng-repeat="message in playbookSuggestionMessages">
+                            <div id="pbconversation-{{$index}}" class="user-message" ng-if="message.type === 'user'">
+                                <div class="chat-content">
+                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                        <div data-cs-markdown-editor id="show-playbook-description"
+                                            data-ng-model="message.text" mode="'view'">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pbconversation-{{$index}}" class="bot-message" ng-if="message.type === 'bot'">
+                                <div class="chat-content">
+                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                        <div style="height: 450px; width: 690px;" data-cs-json-editor data-expand-all="true"
+                                            data-options="options" data-on-change="updateRichTextHtmlValue" data-json="message.text">
+                                        </div>
+                                        <button type="button" data-ng-if="showDescription && message.generatePlaybook"
+                                            class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
+                                            data-ng-click="reviewPlaybook(message.text); " id="btn-copy-result"
+                                            title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
+                                                class="fa fa-clipboard margin-right-sm"></i>Review Result
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pbconversation-{{$index}}" class="bot-message" ng-if="message.type === 'botGeneral'">
+                                <div class="chat-content">
+                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                        <div  data-cs-markdown-editor id="show-playbook-description"
+                                            data-ng-model="message.text" mode="'view'">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="loading-dots" data-ng-if="receivingResponse">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </wizard>
+        </div>
     </div>
-</div>
+    <div id="user-input-container" style="border-top-color:#939393; z-index: 10; background-color:#000000; padding-right: 10%;width: 100%;"
+        class="modal-footer bottom-0 padding-bottom-30 padding-left-20 position-absolute">
+        <!-- Radio Button -->
+        <div class="row margin-bottom-sm">
+            <div class="padding-right-0 padding-left-20">
+                <div class="display-flex" style="justify-content: flex-start;">
+                    <div class="padding-right-25 radio">
+
+                        <label><input id="conversation-radio" name="conversation-radio" type="radio"
+                                data-ng-model="botType" data-ng-change="onChangeMode()" value="Conversation">&nbsp;&nbsp;Response Plans
+                            / Jinja / Playbook How To's</label>
+                        <span data-uib-tooltip="Start a conversation with the bot" data-tooltip-append-to-body="true"><i
+                                class="icon icon-information font-Size-13"></i></span>
+                    </div>
+                    <p style="padding-top: 7px;">
+                        |
+                    </p>
+
+                    <div class="padding-left-25 radio">
+                        <label><input id="playbook-suggestion-radio" name="playbook-suggestion-radio" type="radio"
+                                data-ng-model="botType" data-ng-change="onChangeMode()" value="Playbook Suggestion">&nbsp;&nbsp;Playbook
+                            Generation</label>
+                        <span data-uib-tooltip="To get playbook steps." data-tooltip-append-to-body="true"><i
+                                class="icon icon-information font-Size-13"></i></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Radio Button End -->
+
+        <div class="display-flex" style="margin-top: -7px;">
+            <textarea style="border-radius: 10px;" data-ng-disabled="receivingResponse" type="text" id="conversation-text-input" name="conversation-text-input"
+                class="form-control input-sm display-inline" placeholder="Type a message" ng-model="userInput.textVal"
+                ng-keypress="sendMessage($event, false)">
+            </textarea> <i data-ng-click="sendMessage($event, true)"
+                class="fa fa-arrow-right padding-top-7 position-relative right-25"></i>
+        </div>
+    </div>
