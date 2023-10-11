@@ -18,7 +18,7 @@
       };
   
       $scope.inputText = {
-        inputText: ''
+        inputText: '',
       };
       
       $scope.generatePlaybookDescription = generatePlaybookDescription;
@@ -71,9 +71,18 @@
         var container = document.getElementById('bot-conversation');
         container.scrollTop = container.scrollHeight ;
       }
-  
-      $scope.conversationMessages = [];
-      $scope.playbookSuggestionMessages = [];
+      $scope.conversationMessages = [
+        {
+          text: "Hi there! How can I help you today? Ask me questions like ‘how can I remove all HTML tags from a string’ OR ‘give some suggestions for responding to Ransomware alerts’ or ‘log samples for Fortigate firewall’...",
+          type: "bot"
+        }
+      ];
+      $scope.playbookSuggestionMessages = [
+        {
+          text: "Hi there! How can I help you today? I can help you generate playbook templates for your common use cases. For help on best practices on asking questions that give best results, use the 'help' icon above..",
+          type: "botGeneral"
+        }
+      ];
       $scope.sendMessage = function (event, flagEnterClick) {
         if($scope.botType  === 'Conversation'){
           if ((event.keyCode === 13 && !event.shiftKey) || flagEnterClick) { // Check if Enter key is pressed
@@ -238,11 +247,24 @@
   
         // add a tag to the playbook, get the playbook instead of hardcoding the playbook iri
         getAllPlaybooks(queryObjectPlaybook).then(function (playbook) {
+
+
+
           var queryUrl = '/api/triggers/1/notrigger/' + playbook['hydra:member'][0]['uuid'] + '?force_debug=true';
           //Parametersforplaybook -> 'Edit Parameters' in playbook
           $http.post(queryUrl, parametersForPlaybook).then(function (result) {
+            if($scope.botType !== "Conversation"){
+              $scope.playbookSuggestionMessages.push({ text: "A playbook is triggered to fetch the necessary response...", type: 'botGeneral' });
+              scrollToBottom();
+
+            }
             if (result && result.data && result.data.task_id) {
               playbookService.checkPlaybookExecutionCompletion([result.data.task_id], function (response) {
+                if($scope.botType !== "Conversation"){
+                  $scope.playbookSuggestionMessages.push({ text: "Playbook execution complete", type: 'botGeneral' });
+                  scrollToBottom();
+
+                }
                 if (response && (response.status === 'finished' || response.status === 'failed')) {
                   playbookService.getExecutedPlaybookLogData(response.instance_ids).then(function (res) {
                     $scope.processing = false;
