@@ -13,6 +13,9 @@
                 FortiSOAR AI Assistant
             </div>
         </span>
+        <div class="bot-help-icon">
+            <p style="">?</p> 
+        </div>
     </div>
     <div id="bot-conversation" class="modal-body modal-body padding-left-0 padding-right-0" style="padding-bottom: 10%; background: none !important;">
         <div name="pAIthonBot-wizard">
@@ -73,21 +76,31 @@
                                 </div>
                                 <div class="chat-content bot-message">
                                     <div style="max-width: 700px;" class="display-inline-block margin-15">
-                                        <div style="font-size: 13px;">
+                                        <div id="help-user-text" style="font-size: 13px;">
                                             Here's a suggested playbook outline for review. You can edit this as
                                             suitable and proceed to generate the playbook template.
                                         </div>
-                                        <div style="height: 450px; width: 690px;" data-cs-json-editor
+                                        <div id="id-text-bot-playbook-description" style="height: 450px; width: 690px;" data-cs-json-editor
                                             data-expand-all="true" data-options="options"
                                             data-on-change="updateRichTextHtmlValue" data-json="message.text">
                                         </div>
-                                        <div style="font-size: 13px;">
+                                        <div id="connectors-not-installed" class="italic" style="font-size: 11px;">
+                                            <div class="padding-top-md">
+                                                Note: The steps/block contains following connectors which have not been installed:
+                                            </div>
+                                            <ol>
+                                                <li ng-repeat="connector in connectorNotInstalled"> {{ connector }}</li>
+                                            </ol>
+                                        </div>
+
+
+                                        <div id="text-help-user" style="font-size: 13px" class="padding-top-sm">
                                             Click on the "Review Result" button below to paste a playbook/block with above instruction on the designer page.
                                         </div>
                                         <button type="button" data-ng-if="showDescription && message.generatePlaybook"
                                             class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
-                                            data-ng-click="reviewPlaybook(message.text); " id="btn-copy-result"
-                                            title="Copied results can be paste directly inside playbook designer using ctrl/cmd v option."><i
+                                            data-ng-click="reviewPlaybook(); " id="btn-copy-result"
+                                            title="To paste the playbook block on playbook-designer page."><i
                                                 class="fa fa-clipboard margin-right-sm"></i>Review Result
                                         </button>
                                     </div>
@@ -106,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="bot-loader margin-left-40" data-ng-if="receivingResponse"></span>
+                        <span class="bot-loader margin-left-60" data-ng-if="receivingResponse"></span>
                     </div>
                 </div>
             </div>

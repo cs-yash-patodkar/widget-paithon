@@ -4,6 +4,26 @@
     }
 }
 
+.bot-help-icon{
+  position:absolute;
+  display: flex;
+  margin-top: 18px;
+  right: 17px;
+}
+
+.bot-help-icon p{
+  background: black;
+  font-size: 24px;
+  border: 1px solid;
+  border-radius: 50%;
+  text-align: center;
+  width: 35px;
+  font-size: 25px; 
+  border: 1px solid; 
+  border-radius:50%;
+}
+
+
 .bot-header-background {
   background-image: url('widgets/installed/pAIthon-1.0.0/images/bot-ui-background.png');
   background-size: cover; /* Optional: Adjust how the image covers the div */
@@ -169,4 +189,7 @@ object-fit: cover; border-radius: 2px;
       box-shadow: 14px 0 0 -2px,  38px 0 0 2px,  -14px 0 0 -2px;
     }
   }
+
+
+  
   
