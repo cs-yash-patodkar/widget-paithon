@@ -24,109 +24,122 @@
             <div class="padding-top-30">
                 <div id="chat-container-full">
                     <div id="bot-conversation-window" class="chat-container">
-                        <div class="chat-box" data-ng-if="botType  === 'Conversation'"
-                            style="display: grid;grid-template-columns: 1fr auto;margin: 5px;"
-                            ng-repeat="message in config.messages.conversationMessages">
-                            <div id="conversation-{{$index}}" style="display: flex; flex-direction: row-reverse;"
-                                class="margin-bottom-sm font-italic" ng-if="message.type === 'user'">
-                                <div class="user-you-logo">
-                                    YOU
-                                </div>
-                                <div class="chat-content user-message">
-                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
-                                        <div data-cs-markdown-editor class="markdown-editor-div"
-                                            id="show-playbook-description" data-ng-model="message.text" mode="'view'">
-                                        </div>
+                        <div id="bot-conversation-texts" data-ng-if="botType  === 'Conversation'">
+                            <div class="chat-box" style="display: grid;grid-template-columns: 1fr auto;margin: 5px;"
+                                ng-repeat="message in config.messages.conversationMessages">
+                                <div id="conversation-{{$index}}" style="display: flex; flex-direction: row-reverse;"
+                                    class="margin-bottom-sm font-italic" ng-if="message.type === 'user'">
+                                    <div class="user-you-logo">
+                                        YOU
                                     </div>
-                                    <!-- <p style="max-width: 700px;" class="display-inline-block margin-bottom-md padding-left-10 padding-right-12">{{ message.text }}</p> -->
-                                </div>
-                            </div>
-                            <div id="conversation-{{$index}}" class="display-flex margin-bottom-sm"
-                                ng-if="message.type === 'bot'">
-                                <div class="bot-ai-logo">
-                                    AI
-                                </div>
-                                <div class="chat-content bot-message">
-                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
-                                        <div data-cs-markdown-editor class="markdown-editor-div"
-                                            id="show-playbook-description" data-ng-model="message.text" mode="'view'">
-                                        </div>
-                                    </div>
-                                    <!-- <p style="max-width: 700px;" class="display-inline-block margin-bottom-md padding-left-10 padding-right-12">{{ message.text }}</p> -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat-box" data-ng-if="botType  === 'Playbook Suggestion'"
-                            style="display: grid;grid-template-columns: 1fr auto;margin: 5px;"
-                            ng-repeat="message in config.messages.playbookSuggestionMessages">
-                            <div id="pbconversation-{{$index}}" style="display: flex; flex-direction: row-reverse;"
-                                class=" font-italic" ng-if="message.type === 'user'">
-                                <div class="user-you-logo">
-                                    YOU
-                                </div>
-                                <div class="chat-content user-message">
-                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
-                                        <div data-cs-markdown-editor class="markdown-editor-div"
-                                            id="show-playbook-description" data-ng-model="message.text" mode="'view'">
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div id="pbconversation-{{$index}}" class="display-flex" ng-if="message.type === 'bot'">
-                                <div class="bot-ai-logo">
-                                    AI
-                                </div>
-                                <div class="chat-content bot-message">
-                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
-                                        <div id="help-user-text" style="font-size: 13px;">
-                                            Here's a suggested playbook outline for review. You can edit this as
-                                            suitable and proceed to generate the playbook template.
-                                        </div>
-                                        <div id="id-text-bot-playbook-description" style="height: 450px; width: 690px;"
-                                            data-cs-json-editor data-expand-all="true" data-options="options"
-                                            data-on-change="updateRichTextHtmlValue" data-json="message.text">
-                                        </div>
-                                        <div id="connectors-not-installed" class="italic" style="font-size: 11px;">
-                                            <div class="padding-top-md">
-                                                Note: The steps/block contains following connectors which have not been
-                                                installed:
+                                    <div class="chat-content user-message">
+                                        <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                            <div data-cs-markdown-editor class="markdown-editor-div"
+                                                id="show-playbook-description" data-ng-model="message.text"
+                                                mode="'view'">
                                             </div>
-                                            <ol>
-                                                <li ng-repeat="connector in connectorNotInstalled"> {{ connector }}</li>
-                                            </ol>
                                         </div>
-
-
-                                        <div id="text-help-user" style="font-size: 13px" class="padding-top-sm">
-                                            Click on the "Review Result" button below to paste a playbook/block with
-                                            above instruction on the designer page.
+                                        <!-- <p style="max-width: 700px;" class="display-inline-block margin-bottom-md padding-left-10 padding-right-12">{{ message.text }}</p> -->
+                                    </div>
+                                </div>
+                                <div id="conversation-{{$index}}" class="display-flex margin-bottom-sm"
+                                    ng-if="message.type === 'bot'">
+                                    <div class="bot-ai-logo">
+                                        AI
+                                    </div>
+                                    <div class="chat-content bot-message">
+                                        <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                            <div data-cs-markdown-editor class="markdown-editor-div"
+                                                id="show-playbook-description" data-ng-model="message.text"
+                                                mode="'view'">
+                                            </div>
                                         </div>
-                                        <button type="button" data-ng-if="showDescription && message.generatePlaybook"
-                                            class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
-                                            data-ng-click="reviewPlaybook(); " id="btn-copy-result"
-                                            title="To paste the playbook block on playbook-designer page."><i
-                                                class="fa fa-clipboard margin-right-sm"></i>Review Result
-                                        </button>
+                                        <!-- <p style="max-width: 700px;" class="display-inline-block margin-bottom-md padding-left-10 padding-right-12">{{ message.text }}</p> -->
                                     </div>
                                 </div>
                             </div>
-                            <div id="pbconversation-{{$index}}" class="display-flex"
-                                ng-if="message.type === 'botGeneral'">
-                                <div class="bot-ai-logo">
-                                    AI
-                                </div>
-                                <div class="chat-content bot-message">
-                                    <div style="max-width: 700px;" class="display-inline-block margin-15">
-                                        <div data-cs-markdown-editor class="markdown-editor-div"
-                                            id="show-playbook-description" data-ng-model="message.text" mode="'view'">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <span class="bot-loader margin-left-60 margin-top-27"
+                                data-ng-if="processingConversation"></span>
                         </div>
-                        <span class="bot-loader margin-left-60" data-ng-if="receivingResponse"></span>
+
+                        <div id="playbook-conversation-div" data-ng-if="botType  === 'Playbook Suggestion'">
+                            <div class="chat-box" style="display: grid;grid-template-columns: 1fr auto;margin: 5px;"
+                                ng-repeat="message in config.messages.playbookSuggestionMessages">
+                                <div id="pbconversation-{{$index}}" style="display: flex; flex-direction: row-reverse;"
+                                    class=" font-italic" ng-if="message.type === 'user'">
+                                    <div class="user-you-logo">
+                                        YOU
+                                    </div>
+                                    <div class="chat-content user-message">
+                                        <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                            <div data-cs-markdown-editor class="markdown-editor-div"
+                                                id="show-playbook-description" data-ng-model="message.text"
+                                                mode="'view'">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id="pbconversation-{{$index}}" class="display-flex" ng-if="message.type === 'bot'">
+                                    <div class="bot-ai-logo">
+                                        AI
+                                    </div>
+                                    <div class="chat-content bot-message">
+                                        <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                            <div id="help-user-text" style="font-size: 13px;">
+                                                Here's a suggested playbook outline for review. You can edit this as
+                                                suitable and proceed to generate the playbook template.
+                                            </div>
+                                            <div id="id-text-bot-playbook-description"
+                                                style="height: 450px; width: 690px;" data-cs-json-editor
+                                                data-expand-all="true" data-options="options"
+                                                data-on-change="updateRichTextHtmlValue" data-json="message.text">
+                                            </div>
+                                            <div id="connectors-not-installed" class="italic" style="font-size: 11px;">
+                                                <div class="padding-top-md">
+                                                    Note: The steps/block contains following connectors which have not
+                                                    been
+                                                    installed:
+                                                </div>
+                                                <ol>
+                                                    <li ng-repeat="connector in connectorNotInstalled"> {{ connector }}
+                                                    </li>
+                                                </ol>
+                                            </div>
+
+
+                                            <div id="text-help-user" style="font-size: 13px" class="padding-top-sm">
+                                                Click on the "Review Result" button below to paste a playbook/block with
+                                                above instruction on the designer page.
+                                            </div>
+                                            <button type="button"
+                                                data-ng-if="showDescription && message.generatePlaybook"
+                                                class="btn btn-primary pull-left btn-sm margin-top-lg margin-right-lg"
+                                                data-ng-click="reviewPlaybook(); " id="btn-copy-result"
+                                                title="To paste the playbook block on playbook-designer page."><i
+                                                    class="fa fa-clipboard margin-right-sm"></i>Review Result
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="pbconversation-{{$index}}" class="display-flex"
+                                    ng-if="message.type === 'botGeneral'">
+                                    <div class="bot-ai-logo">
+                                        AI
+                                    </div>
+                                    <div class="chat-content bot-message">
+                                        <div style="max-width: 700px;" class="display-inline-block margin-15">
+                                            <div data-cs-markdown-editor class="markdown-editor-div"
+                                                id="show-playbook-description" data-ng-model="message.text"
+                                                mode="'view'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="bot-loader margin-left-60 margin-top-27"
+                                data-ng-if="processingPlaybook"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,9 +177,10 @@
         <!-- Radio Button End -->
 
         <div class="display-flex" style="margin-top: -7px;">
-            <textarea style="border-radius: 10px;" data-ng-disabled="receivingResponse" type="text"
-                id="conversation-text-input" name="conversation-text-input" class="form-control input-sm display-inline"
-                placeholder="Type a message" ng-model="userInput.textVal" ng-keypress="sendMessage($event, false)">
+            <textarea style="border-radius: 10px;" data-ng-disabled="processingConversation || processingPlaybook"
+                type="text" id="conversation-text-input" name="conversation-text-input"
+                class="form-control input-sm display-inline" placeholder="Type a message" ng-model="userInput.textVal"
+                ng-keypress="sendMessage($event, false)">
             </textarea> <i data-ng-click="sendMessage($event, true)"
                 class="fa fa-arrow-right padding-top-7 position-relative right-25"></i>
         </div>

@@ -32,7 +32,8 @@
       pBDesignerSteps: ["aibot-playbookBlockSuggestion"],
       conversation: ["aibot-conversation"]
     }
-    $scope.receivingResponse = false;
+    $scope.processingPlaybook = false;
+    $scope.processingConversation = false;
     $scope.options = {
       "name": "Workflow Steps",
       mode: 'form',
@@ -85,6 +86,7 @@
     //When radio button selection is changed
     function onChangeMode() {
       delete $scope.userInput.textVal;
+      scrollToBottom();
     }
 
     //scroll to bottom when new conversation message is added
@@ -121,7 +123,7 @@
 
     // Function to generate a bot response 
     function generateBotResponse(userMessage) {
-      $scope.receivingResponse = true;
+      $scope.processingConversation = true;
       var parametersForPlaybook = returnParameters();
       parametersForPlaybook.request.data["conversation"] = userMessage;
 
@@ -136,7 +138,7 @@
           }
         }
       }).finally(function(){
-        $scope.receivingResponse = false;
+        $scope.processingConversation = false;
         setTimeout(function () {
           scrollToBottom();
         }, 1);
@@ -148,7 +150,7 @@
       if ($scope.payload.pageContext === 'pb_designer') {
         $scope.config.messages.playbookSuggestionMessages.push({ text: "Generating playbook steps...", type: 'botGeneral' });
         scrollToBottom();
-        $scope.receivingResponse = true;
+        $scope.processingPlaybook = true;
 
         var parametersForPlaybook = returnParameters();
         parametersForPlaybook.request.data["task_to_automate"] = $scope.playbookDescription;
@@ -163,7 +165,7 @@
             toaster.info('Could not fetch result. Please try again.');
           }
         }).finally(function(){
-          $scope.receivingResponse = false;
+          $scope.processingPlaybook = false;
           $scope.close();
         });
       }
@@ -171,7 +173,7 @@
 
     //get JSON playbook description 
     function generatePlaybookDescription(inputText) {
-      $scope.receivingResponse = true;
+      $scope.processingPlaybook = true;
 
       if ($scope.payload.pageContext === 'pb_designer') {
         $scope.showDescription = false;
@@ -186,7 +188,7 @@
           $scope.showDescription = true;
           if (data.result) {
             if (data.result.query_result && data.result.query_result.result) {
-              $scope.receivingResponse = false;
+              $scope.processingPlaybook = false;
               $scope.config.messages.playbookSuggestionMessages.push({ text: data.result.query_result.result, type: 'bot', generatePlaybook: true });
               $scope.playbookDescription = data.result.query_result.result;
               $scope.connectorNotInstalled = data.result.query_result.result.connectors_not_installed.map(item => item.label);
@@ -195,7 +197,7 @@
               }, 1);
             }
             else {
-              $scope.receivingResponse = false;
+              $scope.processingPlaybook = false;
               $scope.playbookFailed = true;
             }
           }
