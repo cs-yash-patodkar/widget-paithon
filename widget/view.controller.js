@@ -124,17 +124,7 @@
       $scope.receivingResponse = true;
       var parametersForPlaybook = returnParameters();
       parametersForPlaybook.request.data["conversation"] = userMessage;
-      // {
-      //   "input": {},
-      //   "request": {
-      //     "data": {
-      //       "records": [],
-      //       "conversation": userMessage
-      //     }
-      //   },
-      //   "useMockOutput": false,
-      //   "globalMock": false
-      // }
+
       //trigger playbook and get response when execution is completed
       getDataFromPlaybook($scope.playbookTags.conversation, parametersForPlaybook).then(function (data) {
         if (data.result) {
