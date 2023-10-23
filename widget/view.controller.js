@@ -1,8 +1,8 @@
-/* Copyright start
-  Copyright (C) 2008 - 2023 Fortinet Inc.
-  All rights reserved.
-  FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE
-  Copyright end */
+/* 
+Copyright start
+MIT License
+Copyright (c) 2023 Fortinet Inc Copyright end
+*/
 'use strict';
 (function () {
   angular
@@ -53,23 +53,6 @@
       hideModeSwitch: true,
       toolbarItems: ['']
     };
-
-
-    // //Initial message for conversation 
-    // $scope.conversationMessages = [
-    //   {
-    //     text: "Hi there! How can I help you today? Ask me questions like ‘how can I remove all HTML tags from a string’ OR ‘give some suggestions for responding to Ransomware alerts’ or ‘log samples for Fortigate firewall’...",
-    //     type: "bot"
-    //   }
-    // ];
-    // //Initial message for playbook suggestion
-    // $scope.playbookSuggestionMessages = [
-    //   {
-    //     text: "Hi there! How can I help you today? I can help you generate playbook templates for your common use cases. For help on best practices on asking questions that give best results, use the 'help' icon above..",
-    //     type: "botGeneral"
-    //   }
-    // ];
-
 
     $scope.config.messages = {
       playbookSuggestionMessages : [{
