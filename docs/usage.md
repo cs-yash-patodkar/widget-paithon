@@ -14,7 +14,6 @@ In Playbook Blocks mode, the AI Assisted Bot for FortiSOAR Playbook Designer pro
 When a prompt is received from the user, the bot dynamically generates a JSON description of the playbook block. This JSON format encapsulates the essential details of the playbook step, including actions, triggers, conditions, and relevant parameters.
 ![](./res/playbook_description.png)
 
-As part of the automated generation process, the bot checks and verifies the availability of connectors used in the generated playbook block.The bot provides a detailed report on the connector status. It lists any connectors that are not currently installed or available in the FortiSOAR environment.
 
 When users click the "Review Result" button, the bot initiates the playbook block generation process. It takes the JSON description as an input parameter for creating the playbook block.
 ![](./res/playbook_description_reviewresults.png)
